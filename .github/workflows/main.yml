@@ -28,8 +28,26 @@ jobs:
         run: |
           python -m unittest discover
 
-  # deploy:
-  #   # ... (to be expanded later for deployment steps)
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
 
-  # lint:
-  #   # ... (to be expanded later for linting steps)
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Lint code
+        run: |
+          flake8 .
